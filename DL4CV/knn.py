@@ -4,8 +4,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
-from pyimagesearch.preprocessing import SimplePreprocessor
-from pyimagesearch.datasets import SimpleDatasetLoader
+from utilities.preprocessing import SimplePreprocessor
+from utilities.datasets import SimpleDatasetLoader
 from imutils import paths
 import argparse
 
