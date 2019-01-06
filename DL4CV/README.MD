@@ -16,5 +16,5 @@ Common heuristics(CNN).
 3. Only use large filter size at the beginning of networks with a very large dimensionality. Filters of 3*3 or 5*5 are preferrable later in the network.
 4. Applying zero padding when stacking COnv layers often improves accurracy.
 5. Pooling layers with 3* 3 kernels are only used rarely and at the beginning of a network. it is more common to use 2*2 kernels with a stride of 2.
-6. Batch normalization increases the training time but it stabilizes training and makes it easier to tune other hyperparameters.
+6. Batch normalization increases the training time but it stabilizes training and makes it easier to tune other hyperparameters. Very highly recommended.
 7. You need to explicitly train you network to be rotation and scale invariant. A CNN is naturally translational(location withing image) invariant
