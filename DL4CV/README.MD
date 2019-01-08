@@ -5,10 +5,12 @@ Common layer pattern
 
 
 Variations in experiments
-1. Pooling: Use overlapping pooling for large dimensional inputs. Try non-overlapping pooling. Also, try to use convolutions with a large stride instead of a pooling layer.
+1. Pooling: Use overlapping pooling for large dimensional inputs. Try non-overlapping pooling. Also, try to use convolutions with a large stride instead of a pooling layer. Some networks do not use pooling at all(dimensionality reduction only via Conv2D with large strides). Explore using this kind of architecture.
 2. Activation functions: Try ReLU first. Compare using Leaky ReLU and ELU to see if you get better results
 3. Batch normalization: use Batch normalization after the activation layer. Test difference if used before activation. Do not apply before the softmax classifier
 4. Dropout: Dropout with p=0.5 in between an FC that outputs softmax probabilities. Use dropout p = [0.10, 0.25] after downsampling(pooling or convolution with stride>1)
+5. Learning Rate Scheduling: Try to not use a LR to observe what your baseline accuracy is. Then use various learning rates scheduling with various decay factors to observe your validation accuracy.
+
 
 Common heuristics(CNN).
 1. Input image should be square(platform can use linear optimization libraries to train faster).
@@ -17,4 +19,26 @@ Common heuristics(CNN).
 4. Applying zero padding when stacking COnv layers often improves accurracy.
 5. Pooling layers with 3* 3 kernels are only used rarely and at the beginning of a network. it is more common to use 2*2 kernels with a stride of 2.
 6. Batch normalization increases the training time but it stabilizes training and makes it easier to tune other hyperparameters. Very highly recommended.
-7. You need to explicitly train you network to be rotation and scale invariant. A CNN is naturally translational(location withing image) invariant
+7. You need to explicitly train you network to be rotation and scale invariant(use random rotation and scaling during training). A CNN is naturally translational(location withing image) invariant.
+8. Scheduling the learning rate to reduce periodically helps reduce overfitting. You can either use a learning rate scheduler (with the decay set to lr/#epochs) or use a stepbased scheduler callback object(see appendix 1 below)
+9. Watch for underfitting(check for training loss not going low) and overfitting( by checking that the training and test losses are wildly divergent). If validation loss is increasing, you are clearly overfitting. 
+10.Use regularization(weight decay, dropout, data augumentation, early stopping...) to control overfitting
+
+Appendix
+1. Callback sample
+
+	def step_decay(epoch):
+		#initialize the base learning rate, drop factor and the number of epochs after which the epoch should be dropped
+		initAlpha = 0.01
+		factor = 0.25
+		dropEvery = 5
+		
+		#Calculate learning rate for the current epoch
+		alpha = initAlpha * (factor ** np.floor((1+epoch)/dropEvery))
+		
+		#return the learning rate.
+		return float(alpha)
+	
+	callbacks = [LearningRateScheduler(step_decay)]
+	
+	model.fit(trainX, trainY, validation_data = (testX, testY), batch_size=64, epochs=40, callbacks = callbacks)
