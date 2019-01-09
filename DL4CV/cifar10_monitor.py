@@ -10,7 +10,7 @@ from keras.optimizers import SGD
 from keras.datasets import cifar10
 import os
 
-output = "\output"
+output = "output"
 """
 import argparse
 ap= argparse.ArgumentParser()

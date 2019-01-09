@@ -12,7 +12,7 @@ Variations in experiments
 5. Learning Rate Scheduling: Try to not use a LR to observe what your baseline accuracy is. Then use various learning rates scheduling with various decay factors to observe your validation accuracy.
 
 
-Common heuristics(CNN).
+Common heuristics.
 1. Input image should be square(platform can use linear optimization libraries to train faster).
 2. Input layer dimensions should be divisible by  mulitple times after the first conv is done. This allows POOL to be done more efficiently
 3. Only use large filter size at the beginning of networks with a very large dimensionality. Filters of 3*3 or 5*5 are preferrable later in the network.
@@ -23,9 +23,13 @@ Common heuristics(CNN).
 8. Scheduling the learning rate to reduce periodically helps reduce overfitting. You can either use a learning rate scheduler (with the decay set to lr/#epochs) or use a stepbased scheduler callback object(see appendix 1 below)
 9. Watch for underfitting(check for training loss not going low) and overfitting( by checking that the training and test losses are wildly divergent). If validation loss is increasing, you are clearly overfitting. 
 10.Use regularization(weight decay, dropout, data augumentation, early stopping...) to control overfitting
+11.Monitor the training and validation loss using a training monitor callback(See appendix 2)
+12.Saving the weights as validation loss improves(using keras.callbacks.ModelCheckpoint) allows you to persist high-performing networks to disk. The devil is a bastard.
+13.Use keras.plot_model() to visualize models you've created. It shows dimensions and their order.
+
 
 Appendix
-1. Callback sample
+1. Callback sample for configurable learning rate decay
 
 	def step_decay(epoch):
 		#initialize the base learning rate, drop factor and the number of epochs after which the epoch should be dropped
@@ -42,3 +46,15 @@ Appendix
 	callbacks = [LearningRateScheduler(step_decay)]
 	
 	model.fit(trainX, trainY, validation_data = (testX, testY), batch_size=64, epochs=40, callbacks = callbacks)
+
+2. callback sample for monitoring training using the process ID as the identifier
+	import os
+	from trainingmonitor import TrainingMonitor
+	#download this code snippet for the training monitor class  https://github.com/Blowoffvalve/OpenCv/blob/master/DL4CV/utilities/callbacks/trainingmonitor.py
+	
+	#define the output directory
+	outputdir = "/output"
+	figPath = os.path.sep.join([outputdir, "{}.jpg".format(os.getpid())])
+	jsonPath = os.path.sep.join([outputdir, "{}.json".format(os.getpid())])
+	callbacks = [TrainingMonitor(figPath,jsonPath=jsonPath)]
+	model.fit(trainX, trainY, validation_data = (testX, testY), batch_size=64, epochs=100, callbacks = callbacks)
