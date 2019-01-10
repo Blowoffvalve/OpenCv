@@ -26,6 +26,7 @@ Common heuristics.
 11.Monitor the training and validation loss using a training monitor callback(See appendix 2)
 12.Saving the weights as validation loss improves(using keras.callbacks.ModelCheckpoint) allows you to persist high-performing networks to disk. The devil is a bastard.
 13.Use keras.plot_model() to visualize models you've created. It shows dimensions and their order.
+14.When working with image data and you intend to do manual feature extraction(For example to pickup numbers), the sequence of actions is in reference Appendix 3.
 
 
 Appendix
@@ -58,3 +59,17 @@ Appendix
 	jsonPath = os.path.sep.join([outputdir, "{}.json".format(os.getpid())])
 	callbacks = [TrainingMonitor(figPath,jsonPath=jsonPath)]
 	model.fit(trainX, trainY, validation_data = (testX, testY), batch_size=64, epochs=100, callbacks = callbacks)
+	
+3. 	Manual feature extraction process
+		A. Convert to grayscale(1 channel)
+				gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+		B. Add a border padding so the image isn't at the edge.
+				gray = cv2.copyMakeBorder(gray, 20,20,20,20,cv2.BORDER_REPLICATE)
+		C. Use a thresholding function to scale the image from 0 to 1 
+				cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV| cv2.THRESH_OTSU)[1]
+		D. Extract the contours and select a fixed number of them(i select 4 here)
+				cnts = cv2.findContours(thresh, mode = cv2.RETR_EXTERNAL method=cv2.CHAIN_APPROX_SIMPLE)
+				cnts = cnts[0] if imutils.is_cv2() else cnts[1]
+				cnts = sorted(cnts, key=cv2.contourArea, reverse=True)[:4]
+				cnts = contours.sort_contours(cnts)[0]
+		E. 

@@ -10,7 +10,8 @@ from keras.optimizers import SGD
 from keras.datasets import cifar10
 import matplotlib.pyplot as plt
 import numpy as np
-
+import sys
+sys.path.append("..\DL4CV")
 output = "./output/cifar10_minivggnet_with_BN.jpg"
 """
 import argparse
