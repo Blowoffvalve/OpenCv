@@ -1,10 +1,10 @@
-Code implementing Deep-learning using OpenCV as taught in Deep-learning for computer vision with Python(Starter Bundle).
+#Code implementing Deep-learning using OpenCV
 
-Common layer pattern
+##Common layer pattern
 	INPUT(Square dimensional) => [[CONV => RELU]*N => POOL?]*M => [FC => RELU]*K => FC
 
 
-Variations in experiments
+##Variations in experiments
 1. Pooling: Use overlapping pooling for large dimensional inputs. Try non-overlapping pooling. Also, try to use convolutions with a large stride instead of a pooling layer. Some networks do not use pooling at all(dimensionality reduction only via Conv2D with large strides). Explore using this kind of architecture.
 2. Activation functions: Try ReLU first. Compare using Leaky ReLU and ELU to see if you get better results
 3. Batch normalization: use Batch normalization after the activation layer. Test difference if used before activation. Do not apply before the softmax classifier
@@ -12,7 +12,7 @@ Variations in experiments
 5. Learning Rate Scheduling: Try to not use a LR to observe what your baseline accuracy is. Then use various learning rates scheduling with various decay factors to observe your validation accuracy.
 
 
-Common heuristics.
+##Common heuristics.
 1. Input image should be square(platform can use linear optimization libraries to train faster).
 2. Input layer dimensions should be divisible by  mulitple times after the first conv is done. This allows POOL to be done more efficiently
 3. Only use large filter size at the beginning of networks with a very large dimensionality. Filters of 3*3 or 5*5 are preferrable later in the network.
@@ -26,10 +26,10 @@ Common heuristics.
 11.Monitor the training and validation loss using a training monitor callback(See appendix 2)
 12.Saving the weights as validation loss improves(using keras.callbacks.ModelCheckpoint) allows you to persist high-performing networks to disk. The devil is a bastard.
 13.Use keras.plot_model() to visualize models you've created. It shows dimensions and their order.
-14.When working with image data and you intend to do manual feature extraction(For example to pickup numbers), the sequence of actions is in reference Appendix 3.
+14.When working with image data and you intend to do manual feature extraction(For example to pickup numbers), the sequence of extract regions of interest is in reference Appendix 3.
 
 
-Appendix
+##Appendix
 1. Callback sample for configurable learning rate decay
 
 	def step_decay(epoch):
@@ -65,11 +65,19 @@ Appendix
 				gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 		B. Add a border padding so the image isn't at the edge.
 				gray = cv2.copyMakeBorder(gray, 20,20,20,20,cv2.BORDER_REPLICATE)
-		C. Use a thresholding function to scale the image from 0 to 1 
+		C. Use a thresholding function to scale the image from 0 to 1. Pytorch requires that the images be in the range -1 to 1 for better convergence.
 				cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV| cv2.THRESH_OTSU)[1]
 		D. Extract the contours and select a fixed number of them(i select 4 here)
 				cnts = cv2.findContours(thresh, mode = cv2.RETR_EXTERNAL method=cv2.CHAIN_APPROX_SIMPLE)
 				cnts = cnts[0] if imutils.is_cv2() else cnts[1]
 				cnts = sorted(cnts, key=cv2.contourArea, reverse=True)[:4]
 				cnts = contours.sort_contours(cnts)[0]
-		E. 
+		E. Loop over the contours and compute the regions of interests(roi)
+				for c in cnts:
+					#compute the bounding box for the contour then extract the digit
+					(x, y, w, h) = cv2.boundingRect(c)
+					roi = gray[y-5:y+h+5, x-5:x+w+5]
+					roi = preprocess(roi, 28, 28)
+					roi = np.expand_dims(img_to_array(roi), axis=0)/255.0
+		F. Utilize the rois for whatever you want e.g. to predict the most likely probability
+					pred = model.predict(roi).argmax(axis=1)
