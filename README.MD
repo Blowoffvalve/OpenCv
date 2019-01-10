@@ -1,10 +1,10 @@
-#Code implementing Deep-learning using OpenCV
+# Code implementing [Deep-learning using OpenCV](https://www.pyimagesearch.com/)
 
-##Common layer pattern
+## Common layer pattern
 	INPUT(Square dimensional) => [[CONV => RELU]*N => POOL?]*M => [FC => RELU]*K => FC
 
 
-##Variations in experiments
+## Variations in experiments
 1. Pooling: Use overlapping pooling for large dimensional inputs. Try non-overlapping pooling. Also, try to use convolutions with a large stride instead of a pooling layer. Some networks do not use pooling at all(dimensionality reduction only via Conv2D with large strides). Explore using this kind of architecture.
 2. Activation functions: Try ReLU first. Compare using Leaky ReLU and ELU to see if you get better results
 3. Batch normalization: use Batch normalization after the activation layer. Test difference if used before activation. Do not apply before the softmax classifier
@@ -12,7 +12,7 @@
 5. Learning Rate Scheduling: Try to not use a LR to observe what your baseline accuracy is. Then use various learning rates scheduling with various decay factors to observe your validation accuracy.
 
 
-##Common heuristics.
+## Common heuristics.
 1. Input image should be square(platform can use linear optimization libraries to train faster).
 2. Input layer dimensions should be divisible by  mulitple times after the first conv is done. This allows POOL to be done more efficiently
 3. Only use large filter size at the beginning of networks with a very large dimensionality. Filters of 3*3 or 5*5 are preferrable later in the network.
@@ -29,7 +29,7 @@
 14.When working with image data and you intend to do manual feature extraction(For example to pickup numbers), the sequence of extract regions of interest is in reference Appendix 3.
 
 
-##Appendix
+## Appendix 
 1. Callback sample for configurable learning rate decay
 
 	def step_decay(epoch):
