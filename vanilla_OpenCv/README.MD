@@ -11,8 +11,4 @@
 1. Creating a black square background.
         **np.zeros((300,300), dtype="uint8")**
 
-2. Using **bitwise and** to mask everything in the background as done with 
-
-        <img src="images/jpShrunk.png"> + <img src="images/RectangleMaskForJessicaFace.jpg"> = <img src="images/JessicaFaceRectangleMasked.jpg">
-                **OR**
-        <img src="images/jpShrunk.png"> + <img src="images/CircleMaskForJessicaFace"> <img src="images/JessicaFaceCircleMasked">
+2. Using **bitwise and** to mask everything in the background as done with <img src="images/jpShrunk.png"> + <img src="images/RectangleMaskForJessicaFace.jpg"> = <img src="images/JessicaFaceRectangleMasked.jpg">   **OR**    <img src="images/jpShrunk.png"> + <img src="images/CircleMaskForJessicaFace.jpg"> <img src="images/JessicaFaceCircleMasked.jpg">
