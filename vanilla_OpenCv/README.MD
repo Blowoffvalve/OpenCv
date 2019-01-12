@@ -10,13 +10,14 @@
 3. We can apply masks using the bitwise operations(and, or, xor, not). See appendix 2.
 4. Histogram equalization improves the contrast of an image by "stretching" the distribution of pixel intensity. See Appendix 3
 5. The various blurs are used for different reasons
-...A. To blend the images so each pixel is the average of all other pixels around it, use an **average blur**
+
+   A. To blend the images so each pixel is the average of all other pixels around it, use an **average blur**
             `cv2.blur(image, (3,3))`
-...B. To blend the image with a configureable mean, use a **gaussian blur**. The output image tends to look more naturally blurred.
+   B. To blend the image with a configureable mean, use a **gaussian blur**. The output image tends to look more naturally blurred.
             `cv2.GaussianBlur(image, (3,3),0)`
-...C. To reduce noise in an image, we can replace each pixel with the median of the pixels around it within a kernel using a **median blur**
+   C. To reduce noise in an image, we can replace each pixel with the median of the pixels around it within a kernel using a **median blur**
             `cv2.medianBlur(image, 3)`
-...D. To reduce noise while maintaining the edges in an image, use a **bilateral blur**
+   D. To reduce noise while maintaining the edges in an image, use a **bilateral blur**
             `cv2.bilateralFilter(image, 5, 21, 21)`
 <img src="images/BlurComparison.jpg">
 
