@@ -14,4 +14,8 @@
 
 2. Using **bitwise and** to mask everything in the background as done with 
 
-<img src="images/jpShrunk.png"> + <img src="images/RectangleMaskForJessicaFace.jpg"> = <img src="images/JessicaFaceRectangleMasked.jpg">   **OR**   <img src="images/jpShrunk.png"> + <img src="images/CircleMaskForJessicaFace.jpg"> = <img src="images/JessicaFaceCircleMasked.jpg">
+<img src="images/jpShrunk.png"> + <img src="images/RectangleMaskForJessicaFace.jpg"> = <img src="images/JessicaFaceRectangleMasked.jpg">   
+
+        **OR**   
+
+<img src="images/jpShrunk.png"> + <img src="images/CircleMaskForJessicaFace.jpg"> = <img src="images/JessicaFaceCircleMasked.jpg">
