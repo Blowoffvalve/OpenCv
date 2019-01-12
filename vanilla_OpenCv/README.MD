@@ -11,9 +11,7 @@ vB5yKcYXCZ2$8RAr
 4. Histogram equalization improves the contrast of an image by "stretching" the distribution of pixel intensity. See Appendix 3
 5. The various blurs are used for different reasons
         A. To blend the images so each pixel is the average of all other pixels around it, use an **average blur**
-
             cv2.blur(image, (3,3))
-
         B. To blend the image with a configureable mean, use a **gaussian blur**. The output image tends to look more naturally blurred.
 
             cv2.GaussianBlur(image, (3,3),0)
