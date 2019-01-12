@@ -1,8 +1,6 @@
 ## Sample code from my goofing around with openCv.
 
 ### Experiments
-1. Working with a single channel of an image might be sufficient for some tasks. It reduces the data that needs to go through your Conv by 2/3. 
-2. Working with a different color space might also give you better classification accuracy.
 
 ### Heuristics
 1. Arithmetic using the cv2.add and cv2.subtract methods ensure that the values stay in the range of [0 255] and do not wrap around that range.
@@ -23,6 +21,9 @@
    D. To reduce noise while maintaining the edges in an image, use a **bilateral blur**
             `cv2.bilateralFilter(image, 5, 21, 21)`
    <img src="images/BlurComparison.jpg">
+4. Use a threshold to binarize the values in your image(making the pixels either black or white). 
+5. When calculating gradients or performing edge detection on an image, you need to output the result as a 64 bit float, then convert to uint8 to ensure you don't miss edges. See Appendix 4
+   
 
 ### Appendix
 1. Creating a black square background.`     **np.zeros((300,300), dtype="uint8")**`
@@ -38,3 +39,16 @@
 3. Comparing a gray scale image to an image with the histogram equalized
         
    <img src="images/StackedImageShrunk.jpg">
+
+4. Gradient Calculation. 
+   
+   For a Laplacian: Ensure you convert the output to a 64 bit float, then find the absolute value and then convert that to uint8([0 256]) to ensure you don't wrap around 256.
+
+        lap = cv2.Laplacian(image, cv2.CV_64F)
+        lap = np.uint8(np.absolute(lap))
+        cv2.imshow("Laplacian", lap)
+   
+   For sobel gradient: 
+        
+        sobelX = cv2.Sobel(image, cv2.CV_64F, 1, 0)
+        sobelX = np.uint8(np.absolute(sobelX))
