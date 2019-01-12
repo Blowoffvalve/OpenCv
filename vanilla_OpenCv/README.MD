@@ -14,7 +14,6 @@ vB5yKcYXCZ2$8RAr
 
             cv2.blur(image, (3,3))
 
-
         B. To blend the image with a configureable mean, use a **gaussian blur**. The output image tends to look more naturally blurred.
 
             cv2.GaussianBlur(image, (3,3),0)
