@@ -38,7 +38,7 @@ r = 200/image.shape[1]
 dim = (200, int(image.shape[0] * r))
 
 maskshrunk = cv2.resize(rectangle, dim)
-cv2.imwrite("images\RectangleMaskForJessicaFace.jpg", rectangle)
+cv2.imwrite("images\RectangleMaskForJessicaFace.jpg", maskshrunk)
 
 imageShrunk = cv2.resize(image, dim)
 cv2.imwrite("images\jpShrunk.png", imageShrunk)
@@ -47,7 +47,7 @@ output = cv2.resize(rectangleMasked, dim)
 cv2.imwrite("images\JessicaFaceRectangleMasked.jpg", output)
 
 maskshrunk = cv2.resize(circle, dim)
-cv2.imwrite("images\CircleMaskForJessicaFace.jpg", circle)
+cv2.imwrite("images\CircleMaskForJessicaFace.jpg", maskshrunk)
 
 output = cv2.resize(circleMasked, dim)
 cv2.imwrite("images\JessicaFaceCircleMasked.jpg", output)
