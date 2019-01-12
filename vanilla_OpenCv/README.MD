@@ -22,8 +22,7 @@
 
    D. To reduce noise while maintaining the edges in an image, use a **bilateral blur**
             `cv2.bilateralFilter(image, 5, 21, 21)`
-
-       <img src="images/BlurComparison.jpg">
+   <img src="images/BlurComparison.jpg">
 
 ### Appendix
 1. Creating a black square background.
